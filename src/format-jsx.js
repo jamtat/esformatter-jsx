@@ -48,7 +48,7 @@ function alingText(source, node, htmlOptions) {
   }
 
   let first = false;
-  return removeEmptyLines(source).split('\n').map((line) => {
+  return (htmlOptions.preserve_newlines ? source : removeEmptyLines(source)).split('\n').map((line) => {
     line = line.replace(/\s+$/g, '');
     if (!first) {
       first = true;
@@ -152,6 +152,11 @@ module.exports = {
             }
           }
         });
+
+        if (htmlOptions.preserve_newlines) {
+          return code.toString();
+        }
+
         return removeEmptyLines(code.toString());
       },
       operateOnOpenTags(source, _htmlOptions) {
